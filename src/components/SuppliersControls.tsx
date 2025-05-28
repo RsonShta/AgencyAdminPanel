@@ -15,8 +15,9 @@ const SupplierControls: React.FC<SupplierControlsProps> = ({
         type="text"
         placeholder="Search suppliers..."
         onChange={(e) => onSearchChange(e.target.value)}
+        aria-label="Search suppliers"
       />
-      <button className="add-user-btn" onClick={onAddClick}>
+      <button className="add-user-btn" onClick={onAddClick} aria-label="Add Supplier">
         <i className="fas fa-plus"></i> Add Supplier
       </button>
     </section>

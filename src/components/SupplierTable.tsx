@@ -62,12 +62,10 @@ const SupplierTable: React.FC<SupplierTableProps> = ({
 
   const isSelected = (id: number) => selectedSuppliers.includes(id);
 
-  // Confirm before delete
   const handleDeleteClick = (id: number, name: string) => {
-    if (window.confirm(`Are you sure you want to delete supplier "${name}"?`)) {
-      onDeleteUser && onDeleteUser(id);
-    }
+    onDeleteUser && onDeleteUser(id); // Just notify the parent
   };
+  
 
   return (
     <section className="user-list">

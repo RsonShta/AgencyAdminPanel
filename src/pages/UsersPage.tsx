@@ -34,14 +34,6 @@ const UsersPage: React.FC = () => {
       u.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleDeleteSelected = () => {
-    if (
-      window.confirm(`Are you sure you want to delete ${selectedUsers.length} user(s)?`)
-    ) {
-      setUsers((prevUsers) => prevUsers.filter((user) => !selectedUsers.includes(user.id)));
-      setSelectedUsers([]);
-    }
-  };
 
   const handleEnableSelected = () => {
     setUsers((prevUsers) =>
@@ -98,10 +90,10 @@ const UsersPage: React.FC = () => {
 
         <BulkActions
           isAnySelected={isAnySelected}
-          onDeleteSelected={handleDeleteSelected}
           onEnableSelected={handleEnableSelected}
-          onDisableSelected={handleDisableSelected}
-        />
+          onDisableSelected={handleDisableSelected} onDeleteSelected={function (): void {
+            throw new Error('Function not implemented.');
+          } }        />
 
         <UserTable
           users={filteredUsers}

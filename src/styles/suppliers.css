@@ -1,30 +1,32 @@
-/* === Layout === */
+/* === Layout & Controls === */
 .user-controls {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  margin: 1rem 1rem 0.5rem;
+  margin: 1rem;
   gap: 1rem;
 }
 
-.user-controls input[type="text"] {
-  padding: 10px 12px;
+.user-controls input[type="text"],
+.user-controls input {
   flex: 1;
-  max-width: 400px;
+  padding: 10px 14px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
+  max-width: 400px;
 }
 
 .add-user-btn {
-  text-decoration: none;
   background-color: #2e7d32;
   color: white;
   padding: 10px 14px;
   border-radius: 6px;
   font-weight: 600;
-  transition: background 0.2s ease;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .add-user-btn:hover {
@@ -34,16 +36,19 @@
 /* === Bulk Actions === */
 .bulk-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   margin: 0.5rem 1rem 1rem;
-  flex-wrap: wrap;
 }
 
 .bulk-actions button {
   padding: 8px 14px;
   border-radius: 6px;
   font-weight: 600;
-  border: none;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  color: #0b0b0b;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -53,23 +58,8 @@
   cursor: not-allowed;
 }
 
-.bulk-actions button:nth-child(1) {
-  /* background-color: #e53935; */
-  color: rgb(11, 11, 11);
-}
-
-.bulk-actions button:nth-child(2) {
-  /* background-color: #43a047; */
-  color: rgb(11, 10, 10);
-}
-
-.bulk-actions button:nth-child(3) {
-  /* background-color: #fb8c00; */
-  color: rgb(11, 10, 10);
-}
-
 .bulk-actions button:hover:not(:disabled) {
-  opacity: 0.9;
+  background-color: #e0e0e0;
 }
 
 /* === Table Styling === */
@@ -94,31 +84,31 @@
   font-size: 14px;
 }
 
-thead tr {
+.user-list thead tr {
   background-color: #2e7d32;
   color: white;
 }
 
-tbody tr:hover {
+.user-list tbody tr:hover {
   background-color: #f9f9f9;
 }
 
-/* === Status Styling === */
+/* === Status Badge === */
 .status {
   display: inline-block;
   padding: 4px 10px;
   border-radius: 14px;
   font-size: 13px;
   font-weight: 600;
-  color: rgb(15, 14, 14);
+  color: #0f0e0e;
 }
 
-/* === Action Buttons === */
+/* === Icon Buttons === */
 .icon-button {
   background: none;
   border: none;
-  cursor: pointer;
   font-size: 16px;
+  cursor: pointer;
   color: #444;
   padding: 4px;
   transition: color 0.2s ease;
@@ -128,7 +118,7 @@ tbody tr:hover {
   color: #2e7d32;
 }
 
-/* === No Data === */
+/* === Empty Data === */
 .no-suppliers {
   text-align: center;
   padding: 20px;
@@ -165,200 +155,205 @@ tbody tr:hover {
 .pagination button:hover:not(.active) {
   background-color: #f0f0f0;
 }
-/* Controls and buttons */
-.user-controls {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
-  gap: 1rem;
-}
 
-.user-controls input {
-  flex: 1;
-  padding: 10px 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-.add-user-btn {
-  background-color: #388e3c;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.add-user-btn:hover {
-  background-color: #2e7d32;
-}
-
-.bulk-actions {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.bulk-actions button {
-  background-color: #f5f5f5;
-  border: 1px solid #ccc;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-.bulk-actions button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.bulk-actions button:hover:not(:disabled) {
-  background-color: #e0e0e0;
-}
-
-/* Modal Overlay */
-.modal-overlay {
+/* === Modal Overlay & Containers === */
+.add-supplier-modal-overlay,
+.modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
-  animation: fadeIn 0.3s ease-in-out forwards;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Modal Content */
-.modal-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 500px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-  animation: slideUp 0.3s ease-out forwards;
-  transform: translateY(50px);
-  opacity: 0;
-}
-
-@keyframes slideUp {
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.modal-content h2 {
-  margin-bottom: 1.2rem;
-  font-size: 20px;
-  font-weight: bold;
-  color: #2e7d32;
-  text-align: center;
-}
-
-.supplier-form {
+.add-supplier-modal,
+.modal {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
-.supplier-form input {
-  padding: 12px 14px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 14px;
+/* === Modal Header === */
+.add-supplier-modal-header,
+.modal-header {
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: move;
 }
 
-.supplier-form input:focus {
-  border-color: #4caf50;
-  outline: none;
+.add-supplier-modal-close-btn,
+.close-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 1;
+  color: #333;
 }
 
-.modal-actions {
+.add-supplier-modal-close-btn:hover,
+.close-button:hover {
+  color: #000;
+}
+
+/* === Modal Form === */
+.modal-form,
+.add-supplier-form {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  /* gap: 0.8rem; */
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.form-row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+}
+
+.modal-form label,
+.add-supplier-form label {
+  font-size: 12px;
+  /* margin-bottom: 4px; */
+  color: #333;
+}
+
+.modal-form input,
+.modal-form select,
+.add-supplier-form input {
+  padding: 6px;
+  font-size: 13px;
+  border: 1px solid #bbb;
+  border-radius: 2px;
+  background: white;
+  width: 100%;
+}
+
+/* === Modal Actions === */
+.modal-actions,
+.add-supplier-modal-actions {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: auto;
+  padding-top: 10px;
 }
 
-.submit-btn {
-  background-color: #2e7d32;
+.modal-actions button,
+.add-supplier-modal-actions button {
+  padding: 6px 14px;
+  font-size: 13px;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  background-color: #109c25;
   color: white;
-  padding: 10px 18px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s;
 }
 
-.submit-btn:hover {
-  background-color: #1b5e20;
+.modal-actions button:hover,
+.add-supplier-modal-actions button:hover {
+  background-color: #1fd200;
 }
 
-.cancel-btn {
-  background-color: #f0f0f0;
-  color: #333;
-  padding: 10px 18px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s;
+.modal-actions button[type="button"],
+.add-supplier-modal-actions button[type="button"] {
+  background-color: #aaa;
 }
 
-.cancel-btn:hover {
-  background-color: #c2c2c2;
+.modal-actions button[type="button"]:hover,
+.add-supplier-modal-actions button[type="button"]:hover {
+  background-color: #888;
 }
+
+/* === Resize Handle === */
+.resize-handle,
+.add-supplier-resize-handle {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  right: 0;
+  bottom: 0;
+  cursor: nwse-resize;
+  background-color: transparent;
+}
+
+/* === Dark Mode === */
 body.dark-mode {
   background-color: #2b2b2b;
   color: #e0e0e0;
 }
+
 body.dark-mode .main-content {
   background-color: #121212;
 }
+
+body.dark-mode input,
+body.dark-mode select,
 body.dark-mode .user-controls input {
   background-color: #2a2a2a;
   color: #e0e0e0;
   border: 1px solid #444;
 }
+
 body.dark-mode .user-controls input::placeholder {
   color: #bbb;
 }
+
 body.dark-mode .add-user-btn {
   background-color: #388e3c;
-  color: white;
 }
+
 body.dark-mode .add-user-btn:hover {
   background-color: #2e7d32;
 }
+
 body.dark-mode .bulk-actions button {
   background-color: rgba(42, 42, 42, 0.7);
   color: #e0e0e0;
   border: 1px solid #717171;
 }
+
 body.dark-mode .bulk-actions button:hover:not(:disabled) {
   background-color: #444;
 }
+
 body.dark-mode .user-list th,
 body.dark-mode .user-list td {
   background-color: #1e1e1e;
   color: #e0e0e0;
 }
+
 body.dark-mode .user-list th {
   background-color: #2e7d32;
+}
+body.dark-mode .add-supplier-modal-header{
+  color:whitesmoke;
+  background-color: #303030;
+  border-color: white;
 }

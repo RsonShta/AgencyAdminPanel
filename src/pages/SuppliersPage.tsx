@@ -45,12 +45,16 @@ const SuppliersPage: React.FC = () => {
 
   const handleDeleteUser = (id: number) => {
     const supplier = suppliers.find(s => s.id === id);
-    if (supplier && window.confirm(`Are you sure you want to delete ${supplier.name}?`)) {
+    if (!supplier) return;
+
+    const confirmed = window.confirm(`Are you sure you want to delete supplier "${supplier.name}"?`);
+    if (confirmed) {
       setSuppliers(prev => prev.filter(s => s.id !== id));
-      setSelectedSuppliers(prev => prev.filter(selectedId => selectedId !== id));
+      setSelectedSuppliers(prev => prev.filter(selId => selId !== id));
     }
   };
 
+  // ✅ Corrected version of handleAddSupplier
   const handleAddSupplier = (newSupplierData: {
     name: string;
     type: string;
@@ -58,6 +62,7 @@ const SuppliersPage: React.FC = () => {
     contact: string;
     email: string;
     updatedBy: string;
+    agency: string; // Agency now included
   }) => {
     const newSupplier: Supplier = {
       id: suppliers.length + 1,
@@ -65,6 +70,7 @@ const SuppliersPage: React.FC = () => {
       email: newSupplierData.email,
       status: 'Active',
     };
+    // You can store other fields like agency in a separate field or state if needed
     setSuppliers(prev => [...prev, newSupplier]);
     setShowAddModal(false);
   };
@@ -81,7 +87,7 @@ const SuppliersPage: React.FC = () => {
         />
 
         <BulkActions
-          selectedCount={selectedSuppliers.length}
+          isAnySelected={selectedSuppliers.length}
           onEnableSelected={handleEnableSelected}
           onDisableSelected={handleDisableSelected}
         />
@@ -93,12 +99,11 @@ const SuppliersPage: React.FC = () => {
           onDeleteUser={handleDeleteUser}
         />
 
-        {showAddModal && ( 
-          <AddSupplierModal
-            onClose={() => setShowAddModal(false)}
-            onAdd={handleAddSupplier}
-          />
-        )}
+        <AddSupplierModal
+          isOpen={showAddModal}
+          onClose={() => setShowAddModal(false)}
+          onAdd={handleAddSupplier}
+        />
       </div>
     </div>
   );
