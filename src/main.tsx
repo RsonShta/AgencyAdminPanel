@@ -4,8 +4,18 @@ import App from "./App";
 import "./styles/login.css";
 import "./styles/dashboard.css";
 
+import { AuthProvider } from "./context/AuthContext";
+import { AgencyProvider } from "./context/AgencyContext";
+import { SupplierProvider } from "./context/SupplierContext";
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+      <AgencyProvider>
+        <SupplierProvider>
+          <App />
+        </SupplierProvider>
+      </AgencyProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

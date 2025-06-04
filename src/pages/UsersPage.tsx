@@ -35,6 +35,7 @@ const UsersPage: React.FC = () => {
   );
 
 
+
   const handleEnableSelected = () => {
     setUsers((prevUsers) =>
       prevUsers.map((user) =>
@@ -91,9 +92,8 @@ const UsersPage: React.FC = () => {
         <BulkActions
           isAnySelected={isAnySelected}
           onEnableSelected={handleEnableSelected}
-          onDisableSelected={handleDisableSelected} onDeleteSelected={function (): void {
-            throw new Error('Function not implemented.');
-          } }        />
+          onDisableSelected={handleDisableSelected}
+        />
 
         <UserTable
           users={filteredUsers}

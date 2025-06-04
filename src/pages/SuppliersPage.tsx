@@ -5,22 +5,16 @@ import SupplierControls from '../components/SuppliersControls';
 import SupplierTable from '../components/SupplierTable';
 import AddSupplierModal from '../components/AddSupplierModal';
 import BulkActions from '../components/BulkActions';
+import { useAgencyContext } from '../context/AgencyContext';
+import { useSupplierContext } from '../context/SupplierContext';
 import '../styles/suppliers.css';
 
-type Supplier = {
-  id: number;
-  name: string;
-  email: string;
-  status: 'Active' | 'Inactive';
-};
-
 const SuppliersPage: React.FC = () => {
+  const { suppliers, setSuppliers } = useSupplierContext();
+  const { agencies } = useAgencyContext();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSuppliers, setSelectedSuppliers] = useState<number[]>([]);
-  const [suppliers, setSuppliers] = useState<Supplier[]>([
-    { id: 1, name: 'Yeti Airlines', email: 'yeti@yetiairlines.com', status: 'Active' },
-    { id: 2, name: 'Tara Air', email: 'tara@taraair.com', status: 'Inactive' },
-  ]);
   const [showAddModal, setShowAddModal] = useState(false);
 
   const filteredSuppliers = suppliers.filter(
@@ -54,7 +48,6 @@ const SuppliersPage: React.FC = () => {
     }
   };
 
-  // ✅ Corrected version of handleAddSupplier
   const handleAddSupplier = (newSupplierData: {
     name: string;
     type: string;
@@ -62,16 +55,17 @@ const SuppliersPage: React.FC = () => {
     contact: string;
     email: string;
     updatedBy: string;
-    agency: string; // Agency now included
+    agencyIds: string[];
   }) => {
-    const newSupplier: Supplier = {
+    const newSupplier = {
       id: suppliers.length + 1,
       name: newSupplierData.name,
       email: newSupplierData.email,
       status: 'Active',
+      agencyIds: newSupplierData.agencyIds,
     };
-    // You can store other fields like agency in a separate field or state if needed
-    setSuppliers(prev => [...prev, newSupplier]);
+    console.log('Added supplier with agencyIds:', newSupplierData.agencyIds);
+    setSuppliers(prev => [...prev, { ...newSupplier, status: "Active" }]);
     setShowAddModal(false);
   };
 
@@ -79,7 +73,7 @@ const SuppliersPage: React.FC = () => {
     <div className="dashboard-container">
       <Sidebar />
       <div className="main-content">
-        <Header username={''} />
+        <Header />
 
         <SupplierControls
           onSearchChange={setSearchQuery}
@@ -87,7 +81,7 @@ const SuppliersPage: React.FC = () => {
         />
 
         <BulkActions
-          isAnySelected={selectedSuppliers.length}
+          isAnySelected={selectedSuppliers.length > 0}
           onEnableSelected={handleEnableSelected}
           onDisableSelected={handleDisableSelected}
         />
@@ -103,6 +97,7 @@ const SuppliersPage: React.FC = () => {
           isOpen={showAddModal}
           onClose={() => setShowAddModal(false)}
           onAdd={handleAddSupplier}
+          agencies={agencies.map(agency => ({ ...agency, id: agency.id.toString() }))}
         />
       </div>
     </div>

@@ -36,13 +36,13 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onAdd }) =
 
   // Position and size state
   const [position, setPosition] = useState({ top: 0, left: 0 });
-  const [size, setSize] = useState({ width: 600, height: 450 }); // default size
+  const [size, setSize] = useState({ width: 600, height: 500 }); // default size
 
   // Set default position and size when modal opens
   useEffect(() => {
     if (isOpen) {
       setPosition({ top: window.innerHeight * 0.2, left: window.innerWidth * 0.3 });
-      setSize({ width: 600, height: 450 });
+      setSize({ width: 600, height: 500 });
     }
   }, [isOpen]);
 
@@ -118,7 +118,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onAdd }) =
 
     // Reset position and size
     setPosition({ top: window.innerHeight * 0.2, left: window.innerWidth * 0.3 });
-    setSize({ width: 600, height: 450 });
+    setSize({ width: 600, height: 500 });
   };
 
   const handleCancelOrClose = () => {
@@ -135,7 +135,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onAdd }) =
 
     // Reset position and size
     setPosition({ top: window.innerHeight * 0.2, left: window.innerWidth * 0.3 });
-    setSize({ width: 600, height: 450 });
+    setSize({ width: 600, height: 500 });
   };
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -143,7 +143,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onAdd }) =
       onClose();
       // Reset position and size but DO NOT reset form fields
       setPosition({ top: window.innerHeight * 0.2, left: window.innerWidth * 0.3 });
-      setSize({ width: 600, height: 450 });
+      setSize({ width: 600, height: 500 });
     }
   };
 

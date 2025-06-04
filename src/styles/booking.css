@@ -1,0 +1,125 @@
+/* === Booking Layout === */
+.booking-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .booking-content {
+    display: flex;
+    flex: 1;
+  }
+  
+  .booking-main {
+    flex: 1;
+    padding: 2rem;
+    background-color: #f5f5f5;
+    overflow-y: auto;
+  }
+  
+  /* === Titles & Descriptions === */
+  .booking-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #2e7d32;
+  }
+  
+  .booking-description {
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  /* === Search Button === */
+  .search-button {
+    background-color: #2e7d32;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 14px;
+  }
+  
+  .search-button:hover {
+    background-color: #256329;
+  }
+  
+  .search-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* === Error Message === */
+  .error-text {
+    color: red;
+    margin-top: 1rem;
+    font-size: 14px;
+  }
+  
+  /* === Flights Section === */
+  .flights-section {
+    margin-top: 2rem;
+  }
+  
+  .flight-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* === Flight Cards === */
+  .flight-item {
+    background-color: #fff;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    transition: background-color 0.2s ease;
+  }
+  
+  .flight-item:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .flight-item div {
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+  
+  /* === Dark Mode === */
+  body.dark-mode .booking-main {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+  
+  body.dark-mode .booking-title {
+    color: #81c784;
+  }
+  
+  body.dark-mode .booking-description {
+    color: #bbb;
+  }
+  
+  body.dark-mode .flight-item {
+    background-color: #1e1e1e;
+    border-color: #333;
+    color: #e0e0e0;
+  }
+  
+  body.dark-mode .flight-item:hover {
+    background-color: #2a2a2a;
+  }
+  
+  body.dark-mode .search-button {
+    background-color: #388e3c;
+  }
+  
+  body.dark-mode .search-button:hover {
+    background-color: #2e7d32;
+  }
+  

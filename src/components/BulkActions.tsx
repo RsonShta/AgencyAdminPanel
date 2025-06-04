@@ -2,10 +2,10 @@ import React from 'react';
 
 type BulkActionsProps = {
   isAnySelected: boolean;
-  onDeleteSelected: () => void;
   onEnableSelected: () => void;
   onDisableSelected: () => void;
 };
+
 
 const BulkActions: React.FC<BulkActionsProps> = ({
   isAnySelected,
