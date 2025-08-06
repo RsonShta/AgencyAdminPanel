@@ -1,5 +1,5 @@
 import axios from "axios";
-import { storage } from "../storage";
+import { storage } from "../utils/storage";
 
 const ADMIN_API_BASE_URL = "http://localhost:8442";
 const FLIGHT_API_BASE_URL = "http://localhost:8446";

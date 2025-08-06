@@ -1,47 +1,128 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-const BookingForm: React.FC<{
-  session: any;
-  onSubmitBooking: (form: any) => void;
-}> = ({ session, onSubmitBooking }) => {
-  const [form, setForm] = useState({
+interface BookingFormProps {
+  flight: any;
+  onBook: (passengerInfo: any) => void;
+}
+
+const BookingForm: React.FC<BookingFormProps> = ({ flight, onBook }) => {
+  const [formData, setFormData] = useState({
     TitleRcd: "Mr",
-    FirstName: "Test",
-    LastName: "Test",
-    MiddleName: "Test",
+    FirstName: "",
+    LastName: "",
     Gender: "M",
-    Nationality: "IN",
-    ContactName: "APPLE",
-    Email: "sksdf@gmail.com",
-    PhoneMobile: "9745948214",
-    CountryRcd: "NP",
-    AddressLine1: "KTM",
-    FormofPayment: "CRAGT",
-    PassengerId: session.passengerId,
-    BookingId: session.bookingId,
-    CurrencyRcd: "NPR",
-    NumberOfAdults: session.noOfAdults,
-    NumberOfChildren: session.noOfChildren,
-    NumberOfInfants: session.noOfInfants,
-    LanguageRcd: "en",
-    PhoneHome: "IT",
-    PhoneBusiness: "yETIiT",
-    City: "66444D051416c",
-    CreateName: "Website",
-    AddressLine2: "KTM",
-    FormofPayment_SubType: ""
+    Nationality: "NP",
+    Email: "",
+    PhoneMobile: "",
+    City: "",
+    AddressLine1: "",
+    AddressLine2: "",
   });
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("BookingForm handleSubmit payload:", formData);
+    const payload = {
+      ...formData,
+      PassengerType: "ADULT",
+      DocumentNumber: "",
+      DocumentType: "",
+      PassportNumber: "",
+      PassengerId: "093e280f-0eba-4030-aa46-4f93be6a9a51",
+      BookingId: "d0d6615a-8cd2-4132-bf92-0826130c1121",
+      CurrencyRcd: "NPR",
+      NumberOfAdults: 1,
+      NumberOfChildren: 0,
+      NumberOfInfants: 0,
+      LanguageRcd: "en",
+      ContactName: formData.FirstName,
+      PhoneHome: "IT",
+      PhoneBusiness: "yETIiT",
+      CreateName: "Website",
+      CountryRcd: "NP",
+      FormofPayment: "CRAGT",
+      FormofPayment_SubType: "",
+    };
+
+    onBook(payload);
+  };
+
   return (
-    <form onSubmit={e => {
-      e.preventDefault();
-      onSubmitBooking(form);
-    }}>
-      <input placeholder="First Name" value={form.FirstName} onChange={e => setForm({ ...form, FirstName: e.target.value })} />
-      <input placeholder="Last Name" value={form.LastName} onChange={e => setForm({ ...form, LastName: e.target.value })} />
-      <input placeholder="Email" value={form.Email} onChange={e => setForm({ ...form, Email: e.target.value })} />
-      <button type="submit">Confirm Booking</button>
-    </form>
+    <div className="booking-form">
+      <div className="selected-flight-details">
+        <h3>Selected Flight</h3>
+        <p>
+          <strong>Flight Number:</strong> {flight.flightNumber || "N/A"}
+        </p>
+        <p>
+          <strong>From:</strong> {flight.from || flight.originCode} &nbsp;
+          <strong>To:</strong> {flight.to || flight.destinationCode}
+        </p>
+        <p>
+          <strong>Price:</strong> {flight.price || "N/A"}
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit}>
+        <h2>Passenger Information</h2>
+
+        <label>
+          Title:
+          <select name="TitleRcd" value={formData.TitleRcd} onChange={handleChange}>
+            <option value="Mr">Mr</option>
+            <option value="Ms">Ms</option>
+            <option value="Mrs">Mrs</option>
+          </select>
+        </label>
+
+        <label>
+          First Name:
+          <input type="text" name="FirstName" value={formData.FirstName} onChange={handleChange} required />
+        </label>
+
+        <label>
+          Last Name:
+          <input type="text" name="LastName" value={formData.LastName} onChange={handleChange} required />
+        </label>
+
+        <label>
+          Email:
+          <input type="email" name="Email" value={formData.Email} onChange={handleChange} required />
+        </label>
+
+        <label>
+          Phone:
+          <input type="text" name="PhoneMobile" value={formData.PhoneMobile} onChange={handleChange} required />
+        </label>
+
+        <label>
+          Nationality:
+          <input type="text" name="Nationality" value={formData.Nationality} onChange={handleChange} required />
+        </label>
+
+        <label>
+          City:
+          <input type="text" name="City" value={formData.City} onChange={handleChange} required />
+        </label>
+
+        <label>
+          Address Line 1:
+          <input type="text" name="AddressLine1" value={formData.AddressLine1} onChange={handleChange} required />
+        </label>
+
+        <label>
+          Address Line 2:
+          <input type="text" name="AddressLine2" value={formData.AddressLine2} onChange={handleChange} required />
+        </label>
+
+        <button type="submit">Confirm Booking</button>
+      </form>
+    </div>
   );
 };
 

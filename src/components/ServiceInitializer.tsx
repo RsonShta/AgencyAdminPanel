@@ -1,17 +1,35 @@
+// src/components/ServiceInitializer.tsx
+
 import React, { useEffect } from 'react';
 import axios from 'axios';
 
-const ServiceInitializer: React.FC<{ onInitialized: () => void }> = ({ onInitialized }) => {
+interface Props {
+  onInitialized: () => void;
+}
+
+const ServiceInitializer: React.FC<Props> = ({ onInitialized }) => {
   useEffect(() => {
-    axios.post('/api/service/initialize', {
-      strAgencyCode: "TESTAPI",
-      strUserName: "TESTAPI",
-      strPassword: "APITEST@123NP@@",
-      strLanguageCode: "en"
-    }).then(() => {
-      onInitialized();
-    }).catch(console.error);
-  }, []);
+    const agency = {
+      agencyCode: 'TESTAPI',
+      userName: 'TESTAPI',
+      password: 'APITEST@123NP@@',
+    };
+
+    axios.post('http://localhost:8446/api/flight/ServiceIntialize', {
+      strAgencyCode: agency.agencyCode,
+      strUserName: agency.userName,
+      strPassword: agency.password,
+      strLanguageCode: 'en',
+    })
+      .then(() => {
+        console.log("Service initialized successfully");
+        onInitialized();
+      })
+      .catch((err) => {
+        console.error("Failed to initialize service:", err.response?.data || err.message || err);
+        alert("Failed to initialize service. Please try again.");
+      });
+  }, [onInitialized]);
 
   return <p>Initializing service...</p>;
 };

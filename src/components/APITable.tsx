@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import "../styles/api-test.css";
 import { getFlightAvailability } from "../api/api";
 
+const getDatePlusDays = (days: number) => {
+  const date = new Date();
+  date.setDate(date.getDate() + days);
+  return date.toISOString().split("T")[0];
+};
+
 type ApiPayload = {
   strOrigin: string;
   strDestination: string;
@@ -36,8 +42,8 @@ export default function ApiManagement() {
   const [form, setForm] = useState<ApiPayload>({
     strOrigin: "KTM",
     strDestination: "PKR",
-    strDepartFrom: "2025-06-06",
-    strDepartTo: "2025-06-06",
+    strDepartFrom: getDatePlusDays(2),
+    strDepartTo: getDatePlusDays(2),
     strReturnFrom: "",
     strReturnTo: "",
     iAdult: 1,
@@ -78,6 +84,7 @@ export default function ApiManagement() {
           : value,
     }));
   };
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -428,9 +435,9 @@ export default function ApiManagement() {
                                     <td>{flight.airline}</td>
                                     <td>{flight.flightNumber}</td>
                                     <td>{flight.originName}</td>
-                                    <td>{formatTime(flight.departureTime)}</td>
+                                    <td>{flight.departureTime}</td>
                                     <td>{flight.destinationName}</td>
-                                    <td>{formatTime(flight.arrivalTime)}</td>
+                                    <td>{flight.arrivalTime}</td>
                                     <td>{flight.totalAdultFare.toFixed(2)}</td>
                                     <td>{flight.currency}</td>
                                     <td>{flight.bookingClass}</td>

@@ -11,7 +11,7 @@ import BookingPage from "./pages/BookingPage";
 
 const App: React.FC = () => {
   return (
-    <AgencyProvider> {/* ✅ WRAP EVERYTHING INSIDE THIS */}
+    <AgencyProvider>
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />

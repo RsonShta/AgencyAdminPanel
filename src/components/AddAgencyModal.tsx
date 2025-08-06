@@ -17,13 +17,13 @@ type AddAgencyModalProps = {
     id: string;
     name: string;
     code: string;
-    status: "enabled" | "disabled";
+    status: "active" | "inactive";
   }) => void;
   nextId: number;
   onViewSuppliers: () => void;
 };
 
-const AddAgencyModal: React.FC<AddAgencyModalProps> = ({ onClose, onAdd, nextId, onViewSuppliers }) => {
+const AddAgencyModal: React.FC<AddAgencyModalProps> = ({ onClose, onAdd, nextId }) => {
   const today = new Date().toISOString().split('T')[0];
   const { suppliers: contextSuppliers } = useSupplierContext();
 
@@ -85,7 +85,7 @@ const AddAgencyModal: React.FC<AddAgencyModalProps> = ({ onClose, onAdd, nextId,
       id: nextId.toString(),
       name: formData.agencyName,
       code: formData.code,
-      status: "enabled",
+      status: "active",
     });
 
     onClose();
