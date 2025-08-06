@@ -1,11 +1,12 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8446/api/flight";
+const FLIGHT_BASE_URL = "http://localhost:8446/api/flight";
+const USER_BASE_URL = "http://localhost:8446/api/user";
 
 let sessionCookie: string | null = null;
 
-const axiosInstance = axios.create({
-  baseURL: BASE_URL,
+const flightAxiosInstance = axios.create({
+  baseURL: FLIGHT_BASE_URL,
   withCredentials: true, // ✅ THIS is critical
   headers: {
     'Content-Type': 'application/json',
@@ -23,15 +24,23 @@ const axiosInstance = axios.create({
   }]
 });
 
+const userAxiosInstance = axios.create({
+  baseURL: USER_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  }
+});
+
 
 // Add interceptor to manage session
-axiosInstance.interceptors.response.use(response => {
+flightAxiosInstance.interceptors.response.use(response => {
   const setCookie = response.headers['set-cookie'];
   if (setCookie) {
     const jsessionid = setCookie.find(cookie => cookie.startsWith('JSESSIONID='));
     if (jsessionid) {
       sessionCookie = jsessionid;
-      axiosInstance.defaults.headers.common['Cookie'] = sessionCookie;
+      flightAxiosInstance.defaults.headers.common['Cookie'] = sessionCookie;
       console.log('🔑 Session cookie updated:', sessionCookie);
     }
   }
@@ -70,7 +79,7 @@ export const initializeService = async (force = false) => {
     }
 
     console.log("🔄 Initializing service...");
-    const res = await axiosInstance.post(`/ServiceIntialize`, {
+    const res = await flightAxiosInstance.post(`/ServiceIntialize`, {
       strAgencyCode: "TESTAPI",
       strUserName: "TESTAPI",
       strPassword: "APITEST@123NP@@",
@@ -105,7 +114,7 @@ export const addFlight = async (flight: {
   try {
     await initializeService(); // Will use existing session if available
     console.log("🛫 Adding flight...", flight);
-    const res = await axiosInstance.post(`/FlightAdd`, flight);
+    const res = await flightAxiosInstance.post(`/FlightAdd`, flight);
     console.log("✅ Flight added:", res.data);
     return res.data;
   } catch (err: any) {
@@ -119,7 +128,7 @@ export const getBookingSession = async () => {
   try {
     await initializeService(); // Will use existing session if available
     console.log("📡 Getting booking session...");
-    const res = await axiosInstance.get(`/BookingGetSession`, {
+    const res = await flightAxiosInstance.get(`/BookingGetSession`, {
       params: { format: 'json' }
     });
     if (!res.data) {
@@ -136,11 +145,29 @@ export const getBookingSession = async () => {
 // 5. Confirm Booking
 export const confirmBooking = async (form: any) => {
   try {
-    const res = await axiosInstance.post(`/BookingConfirm`, form);
+    const res = await flightAxiosInstance.post(`/BookingConfirm`, form);
     console.log("✅ Booking confirmed:", res.data);
     return res.data;
   } catch (err: any) {
     console.error("❌ Booking confirm failed:", err?.response?.data || err.message);
     throw new Error("Booking confirmation failed");
+  }
+};
+
+// 6. Signup User
+export const signup = async (userData: {
+  username: string;
+  email: string;
+  password: string;
+  phone_number: string;
+}) => {
+  try {
+    console.log("📝 Signing up user...", userData);
+    const res = await userAxiosInstance.post("/signin", userData);
+    console.log("✅ Signup response:", res.data);
+    return res.data;
+  } catch (err: any) {
+    console.error("❌ Signup error:", err?.response?.data || err.message);
+    throw new Error("Signup failed");
   }
 };

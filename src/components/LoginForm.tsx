@@ -3,7 +3,7 @@ import React, { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/yetiAirlinesLogo.png';
 import { loginUser } from '../api/api'; // Import the loginUser API function
-import "../styles/login.css";
+import "../styles/auth.css";
 
 const LoginForm: React.FC = () => {
   const [userId, setUserId] = useState<string>('');
@@ -26,12 +26,12 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="login-card">
+    <div className="auth-card">
       <div className="logo-container">
         <img src={logo} alt="Logo" className="logo" />
       </div>
 
-      <h2 className="admin-header">Admin Login</h2>
+      <h2 className="auth-header">Admin Login</h2>
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">
