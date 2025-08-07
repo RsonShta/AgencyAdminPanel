@@ -1,8 +1,7 @@
-// src/components/LoginForm.tsx (or wherever your file is)
 import React, { useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import logo from '../assets/yetiAirlinesLogo.png';
-import { loginUser } from '../api/api'; // Import the loginUser API function
+import { loginUser } from '../api/api';
 import "../styles/login.css";
 
 const LoginForm: React.FC = () => {
@@ -28,7 +27,7 @@ const LoginForm: React.FC = () => {
   return (
     <div className="login-card">
       <div className="logo-container">
-        <img src={logo} alt="Logo" className="logo" />
+        <img src={logo} alt="Yeti Airlines Logo" className="logo" />
       </div>
 
       <h2 className="admin-header">Admin Login</h2>
@@ -70,15 +69,18 @@ const LoginForm: React.FC = () => {
           />
         </div>
 
+        {error && <p className="error-message">{error}</p>}
+
         <div className="form-aux">
           <a href="/forgot-password">Forgot Password?</a>
         </div>
-        {error && <p className="error-message">{error}</p>}
 
-        <button type="submit" className="btn">
-          Login
-        </button>
+        <button type="submit" className="btn">Login</button>
       </form>
+
+      <div className="footer" style={{ textAlign: 'center' }}>
+        Don't have an account? <Link to="/signup">Sign up</Link>
+      </div>
     </div>
   );
 };

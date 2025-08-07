@@ -19,6 +19,16 @@ export const loginUser = async (userId: string, username: string, password: stri
   }
 };
 
+export const signupUser = async (username: string, email: string, phone_number: string, password: string) => {
+  try {
+    const response = await axios.post(`${ADMIN_API_BASE_URL}/api/user/signin`, { username, email, phone_number, password });
+    return response.data;
+  } catch (error) {
+    console.error("Signup error:", error);
+    throw error;
+  }
+};
+
 interface FlightAvailabilityParams {
   strOrigin: string;
   strDestination: string;

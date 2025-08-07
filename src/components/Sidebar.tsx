@@ -27,12 +27,8 @@ const navSections: NavSection[] = [
       { href: "/dashboard/users", icon: "fas fa-users", label: "Users" },
       { href: "/dashboard/agencies", icon: "fas fa-building", label: "Agencies" },
       { href: "/dashboard/apitest", icon: "fas fa-plug", label: "Test API" },
-      { href: "#", icon: "fas fa-plane", label: "Flights" },
       { href: "#", icon: "fas fa-dollar-sign", label: "Fare Override" }, // changed to money-bill
       { href: "/dashboard/booking", icon: "fas fa-ticket-alt", label: "Booking" },
-      { href: "#", icon: "fas fa-hand-holding-usd", label: "Payments" },
-      { href: "#", icon: "fas fa-chart-pie", label: "Revenue Analytics" },
-      { href: "#", icon: "fas fa-money-bill-wave", label: "Expense Tracking" },
     ],
   },
   {
