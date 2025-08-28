@@ -1,0 +1,287 @@
+/* === Dashboard Container === */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+}
+
+/* === Sidebar === */
+.sidebar {
+  width: 250px;
+  background-color: #2e7d32; /* Dark green */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  transition: width 0.3s ease;
+  flex-shrink: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+.sidebar h2 {
+    display: flex;
+    gap: 10%;
+    align-items: baseline;
+    justify-content: flex-start;
+    font-size: 18px;
+    margin-bottom: 1rem;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    flex-direction: row;
+    color: white;
+}
+
+.sidebar h2 button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.sidebar hr {
+  border-color: rgba(255, 255, 255, 0.2);
+  margin-bottom: 1rem;
+}
+
+.nav-section p {
+  font-weight: 700;
+  color: rgb(255, 191, 0);
+  font-size: 22px;
+  margin: 1rem 0 0.5rem;
+  letter-spacing: 0.03em;
+  /* background-color: #ddd; */
+}
+
+.nav-section a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.5rem 0;
+  color: white;
+  text-decoration: none;
+  font-weight: 300;
+  transition: padding-left 0.2s ease, background-color 0.2s ease;
+  border-radius: 4px;
+}
+
+.nav-section a:hover {
+  background-color: #27642a;
+  padding-left: 12px;
+}
+
+.sidebar.collapsed .sidebar-title {
+   justify-content: center;
+  padding-left: 0;
+  margin: 0;
+}
+
+.sidebar.collapsed .nav-section a {
+  justify-content: center;
+  padding-left: 0;
+}
+
+.sidebar.collapsed .nav-section a i {
+  margin: 0;
+}
+
+/* === Main Content === */
+.main-content {
+  flex: 1;
+  padding: 20px 30px;
+  overflow-y: auto;
+}
+
+/* === Header === */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
+}
+
+header h1 {
+  color: #2e7d32;
+  font-size: 28px;
+  margin: 0;
+  font-weight: 700;
+}
+
+.admin-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #555;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.admin-info .icon {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.admin-info .admin-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* === Stats Cards === */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background-color: #fff;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.2rem 1rem;
+  text-align: center;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+}
+
+.card-icon {
+  font-size: 36px;
+  color: #2e7d32;
+  margin-bottom: 0.5rem;
+}
+
+.card h3 {
+  font-size: 16px;
+  margin-bottom: 0.25rem;
+  color: #333;
+  font-weight: 700;
+}
+
+.card p {
+  font-size: 22px;
+  margin: 0;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.card p.error {
+  color: #d32f2f;
+}
+
+/* === Recent Activity === */
+.recent-activity {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.recent-card {
+  background-color: #fff;
+  border-radius: 10px;
+  height:max-content;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+  flex: 1 1 300px;
+  min-width: 280px;
+}
+
+.recent-card h2 {
+  margin-top: 0;
+  color: #2e7d32;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.recent-card ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.5rem;
+  font-size: 14px;
+  color: #333;
+}
+
+.recent-card li {
+  padding: 0.3rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.recent-card.deleted li {
+  color: #d32f2f;
+  font-weight: 600;
+}
+/* === Dark Mode Toggle === */
+.dark-toggle {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #2e7d32;
+  transition: color 0.3s ease;
+}
+
+/* === Dark Mode Styles === */
+body.dark-mode {
+  background-color: #222222;
+  color: #e0e0e0;
+}
+
+body.dark-mode .main-content {
+  background-color: #121212;
+}
+
+body.dark-mode header {
+  border-bottom: 1px solid #333;
+}
+
+body.dark-mode header h1 {
+  color: #e8e8e8;
+}
+
+body.dark-mode .admin-info {
+  color: #ccc;
+}
+
+body.dark-mode .card {
+  background-color: #1e1e1e;
+  box-shadow: 0 1px 8px rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .card h3,
+body.dark-mode .card p {
+  color: #e0e0e0;
+}
+
+body.dark-mode .recent-activity .recent-card {
+  background-color: #1e1e1e;
+}
+body.dark-mode .recent-card h2{
+  color: #e0e0e0;
+}
+
+body.dark-mode .recent-card ul{
+  color: #e0e0e0;
+}
+
+body.dark-mode .nav-section a {
+  color: #fff;
+}
+
+body.dark-mode .nav-section a:hover {
+  background-color: #388e3c;
+}

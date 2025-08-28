@@ -1,0 +1,250 @@
+/* === Booking Layout === */
+.booking-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f5f5;
+}
+
+.booking-content {
+  display: flex;
+  flex: 1;
+}
+
+.booking-main {
+  flex: 1;
+  padding: 2rem;
+  background-color: #fdfdfd;
+  overflow-y: auto;
+}
+
+/* === Titles & Descriptions === */
+.booking-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #2e7d32;
+  border-left: 4px solid #2e7d32;
+  padding-left: 12px;
+}
+
+.booking-description {
+  margin-bottom: 2rem;
+  font-size: 15px;
+  color: #444;
+}
+
+/* === Form Layout === */
+.flight-search-form {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+
+
+/* === Search Button === */
+.search-button {
+  background-color: #2e7d32;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  font-size: 15px;
+}
+.search-button:hover {
+  background-color: #256329;
+  transform: translateY(-1px);
+}
+
+.search-button:disabled {
+  background-color: #ccc;
+  cursor:pointer;
+}
+.button{
+  width: 10px;
+}
+/* === Error Message === */
+.error-text {
+  color: #d32f2f;
+  margin-top: 1rem;
+  font-size: 14px;
+}
+
+/* === Flights Section === */
+.flights-section {
+  margin-top: 2rem;
+}
+
+.flight-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.flight-item {
+  background-color: #fff;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.flight-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: #fcfcfc;
+}
+
+.flight-item div {
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.flight-item button {
+  margin-top: 0.5rem;
+  padding: 8px 16px;
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.flight-item button:hover {
+  background-color: #256329;
+}
+
+/* === Booking Form === */
+.booking-form {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  margin-top: 2rem;
+  max-width: 500px;
+}
+
+.booking-form input {
+  margin-bottom: 1rem;
+}
+
+/* === Confirmation === */
+.booking-confirmation {
+  background-color: #e8f5e9;
+  border-left: 6px solid #2e7d32;
+  padding: 2rem;
+  margin-top: 2rem;
+  border-radius: 6px;
+}
+
+.booking-confirmation h2 {
+  color: #2e7d32;
+  margin-bottom: 1rem;
+}
+
+.booking-confirmation p {
+  font-size: 15px;
+  color: #333;
+}
+
+/* === Form Fields === */
+input,
+select,
+textarea {
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+}
+
+/* === Dark Mode === */
+body.dark-mode .booking-main {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode .booking-title {
+  color: #81c784;
+  border-color: #81c784;
+}
+
+body.dark-mode .booking-description {
+  color: #bbb;
+}
+
+body.dark-mode .flight-item {
+  background-color: #1e1e1e;
+  border-color: #333;
+  color: #e0e0e0;
+}
+
+body.dark-mode .flight-item:hover {
+  background-color: #2a2a2a;
+}
+
+body.dark-mode .search-button {
+  background-color: #388e3c;
+}
+
+body.dark-mode .search-button:hover {
+  background-color: #2e7d32;
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  border-color: #444;
+}
+
+body.dark-mode .booking-confirmation {
+  background-color: #2c4030;
+  border-color: #81c784;
+}
+
+body.dark-mode .booking-confirmation h2 {
+  color: #a5d6a7;
+}
+.loading-message {
+  font-size: 1.2rem;
+  color: #007bff;
+  margin: 20px 0;
+}
+
+.intro-text {
+  font-size: 1.4rem;
+  margin: 20px 0;
+  color: #333;
+  text-align: center;
+}
+.booking-message {
+  color: #0077cc;
+  font-weight: bold;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #eef6ff;
+  border: 1px solid #cce4ff;
+  border-radius: 5px;
+}

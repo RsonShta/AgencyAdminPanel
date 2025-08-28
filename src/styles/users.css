@@ -1,0 +1,254 @@
+/* === General User Interface Styles === */
+.user-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem;
+    gap: 1rem;
+  }
+  
+  .user-controls input[type="text"] {
+    padding: 8px;
+    flex: 1;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .add-user-btn {
+    text-decoration: none;
+    background-color: #2e7d32;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+  
+  /* === Bulk Actions === */
+  .bulk-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem;
+  }
+  
+  .bulk-actions button {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* === User Table === */
+  .user-list {
+    margin: 1rem;
+    overflow-x: auto;
+  }
+  
+  .user-list table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-list th,
+  .user-list td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+  }
+  
+  thead tr {
+    background-color: #2e7d32;
+    color: white;
+  }
+  
+  .status.active {
+    color: white;
+    background-color: #4caf50;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  
+  .status.inactive {
+    color: white;
+    background-color: #f44336;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  
+  .icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 8px;
+  }
+  
+  .icon-button:hover {
+    opacity: 0.7;
+  }
+  
+  /* === Modal Overlay === */
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* === Modal Window === */
+  .modal {
+    background-color: #f0f0f0;
+    width: 500px;
+    max-width: 90%;
+    border: 1px solid #ccc;
+    border-radius: 1%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* === Modal Header === */
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 18px;
+    background-color: #e4e4e4;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .modal-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+  }
+  
+  .close-button {
+    background-color: #e81123;
+    color: white;
+    border: none;
+    width: 16px;
+    height: 16px;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+    line-height: 0;
+  }
+  
+  .close-button:hover {
+    background-color: #c50f1f;
+  }
+  
+  /* === Modal Form === */
+  .modal-form {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+  }
+  
+  .modal-form label {
+    font-size: 13px;
+    margin-bottom: 4px;
+    color: #333;
+  }
+  
+  .modal-form input,
+  .modal-form select {
+    padding: 6px;
+    font-size: 13px;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    background: white;
+    width: 100%;
+  }
+  
+  /* === Modal Actions === */
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .modal-actions button {
+    padding: 6px 14px;
+    font-size: 13px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    background-color: #109c25;
+    color: white;
+  }
+  
+  .modal-actions button:hover {
+    background-color: #1fd200;
+  }
+  
+  .modal-actions button[type="button"] {
+    background-color: #aaa;
+  }
+  
+  .modal-actions button[type="button"]:hover {
+    background-color: #888;
+  }
+
+  .resize-handle {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    right: 0;
+    bottom: 0;
+    cursor: nwse-resize;
+    background-color: transparent;
+    z-index: 10;
+  }
+  
+  
+  /* === Responsive Tweak for Smaller Screens === */
+  @media (max-width: 600px) {
+    .form-row {
+      flex-direction: column;
+    }
+  
+    .modal {
+      width: 95%;
+    }
+  
+    .modal-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  
+    .modal-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  

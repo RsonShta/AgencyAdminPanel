@@ -1,0 +1,455 @@
+/* === Layout & Controls === */
+.user-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem;
+  gap: 1rem;
+}
+
+.user-controls input[type="text"],
+.user-controls input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  max-width: 400px;
+}
+
+.add-user-btn {
+  background-color: #2e7d32;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-user-btn:hover {
+  background-color: #256329;
+}
+
+/* === Bulk Actions === */
+.bulk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0.5rem 1rem 1rem;
+}
+
+.bulk-actions button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  color: #0b0b0b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bulk-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.bulk-actions button:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+/* === Table Styling === */
+.user-list {
+  margin: 1rem;
+  overflow-x: auto;
+}
+
+.user-list table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.user-list th,
+.user-list td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  font-size: 14px;
+}
+
+.user-list thead tr {
+  background-color: #2e7d32;
+  color: white;
+  padding: 10px;
+}
+
+.user-list tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* === Status Badge === */
+.status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f0e0e;
+}
+
+/* === Icon Buttons === */
+.icon-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #444;
+  padding: 4px;
+  transition: color 0.2s ease;
+}
+
+.icon-button:hover {
+  color: #2e7d32;
+}
+
+/* === Empty Data === */
+.no-suppliers {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+  font-style: italic;
+}
+
+/* === Pagination === */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.pagination .active {
+  background-color: #2e7d32;
+  color: white;
+  border-color: #2e7d32;
+}
+
+.pagination button:hover:not(.active) {
+  background-color: #f0f0f0;
+}
+
+/* === Modal Overlay & Containers === */
+.add-supplier-modal-overlay,
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.add-supplier-modal,
+.modal {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* === Modal Header === */
+.add-supplier-modal-header,
+.modal-header {
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  cursor:default;
+}
+
+.add-supplier-modal-close-btn,
+.close-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 1;
+  color: #333;
+}
+
+.add-supplier-modal-close-btn:hover,
+.close-button:hover {
+  color: #000;
+}
+
+/* === Modal Form === */
+.modal-form,
+.add-supplier-form {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  /* gap: 0.8rem; */
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.form-row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+}
+
+.modal-form label,
+.add-supplier-form label {
+  font-size: 12px;
+  /* margin-bottom: 4px; */
+  color: #333;
+}
+
+.modal-form input,
+.modal-form select,
+.add-supplier-form input {
+  padding: 6px;
+  font-size: 13px;
+  border: 1px solid #bbb;
+  border-radius: 2px;
+  background: white;
+  width: 100%;
+}
+
+/* === Modal Actions === */
+.modal-actions,
+.add-supplier-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+.modal-actions button,
+.add-supplier-modal-actions button {
+  padding: 6px 14px;
+  font-size: 13px;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  background-color: #109c25;
+  color: white;
+}
+
+.modal-actions button:hover,
+.add-supplier-modal-actions button:hover {
+  background-color: #1fd200;
+}
+.agency-dropdown-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  
+}
+
+.add-agency-btn {
+  width: fit-content;
+  padding: 6px 12px;
+  background-color: #01a517;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  height: fit-content;
+}
+
+.add-agency-btn:hover {
+  background-color: #04cf15;
+}
+
+.dropdown-container {
+  flex-grow: 1;
+  max-width: 100%;
+  position: relative;
+  
+  }
+
+.dropdown-search {
+  width: 100%;
+  padding: 6px;
+  margin-top: 10px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.dropdown-options {
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.dropdown-option {
+  margin-bottom: 5px;
+}
+
+.selected-agencies {
+  margin-top: 0.5rem;
+}
+
+.selected-agency {
+  display: inline-block;
+  background-color: #d9edf7;
+  color: #31708f;
+  padding: 2px 6px;
+  margin: 2px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.modal-actions button[type="button"],
+.add-supplier-modal-actions button[type="button"] {
+  background-color: #aaa;
+}
+
+.modal-actions button[type="button"]:hover,
+.add-supplier-modal-actions button[type="button"]:hover {
+  background-color: #888;
+}
+
+/* === Resize Handle === */
+.resize-handle,
+.add-supplier-resize-handle {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  right: 0;
+  bottom: 0;
+  cursor: nwse-resize;
+  background-color: transparent;
+}
+
+.dropdown-agency-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.dropdown-agency-table {
+  border: 2px solid #2e7d32;
+
+}
+.dropdown-agency-table th{
+  background-color: #2e7d32;
+  color: white;
+  padding: 8px;
+  text-align: left;
+}
+
+.dropdown-agency-table td {
+  padding: 8px;
+  border-bottom: 2px solid #ddd;
+}
+
+
+/* === Dark Mode === */
+body.dark-mode {
+  background-color: #2b2b2b;
+  color: #e0e0e0;
+}
+
+body.dark-mode .main-content {
+  background-color: #121212;
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode .user-controls input {
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+  border: 1px solid #444;
+}
+
+body.dark-mode .user-controls input::placeholder {
+  color: #bbb;
+}
+
+body.dark-mode .add-user-btn {
+  background-color: #388e3c;
+}
+
+body.dark-mode .add-user-btn:hover {
+  background-color: #2e7d32;
+}
+
+body.dark-mode .bulk-actions button {
+  background-color: rgba(42, 42, 42, 0.7);
+  color: #e0e0e0;
+  border: 1px solid #717171;
+}
+
+body.dark-mode .bulk-actions button:hover:not(:disabled) {
+  background-color: #444;
+}
+
+body.dark-mode .user-list th,
+body.dark-mode .user-list td {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+body.dark-mode .user-list th {
+  background-color: #2e7d32;
+}
+body.dark-mode .add-supplier-modal-header{
+  color:whitesmoke;
+  background-color: #303030;
+  border-color: white;
+}
+body.dark-mode .add-supplier-modal-close-btn,
+body.dark-mode .close-button {
+  color: #e0e0e0;
+}
+body.dark-mode .add-supplier-modal-close-btn:hover,
+body.dark-mode .close-button:hover {
+  color: #fff;
+}
