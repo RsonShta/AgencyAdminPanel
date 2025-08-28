@@ -1,12 +1,15 @@
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker, declarative_base
-from app.core.config import settings
+from admin_app.core.config import settings
 
-# Database URL
+from urllib.parse import quote_plus
+password = quote_plus(settings.DB_PASSWORD)  # encodes special chars
+
 DATABASE_URL = (
-    f"postgresql+psycopg2://{settings.DB_USER}:{settings.DB_PASSWORD}"
+    f"postgresql+psycopg2://{settings.DB_USER}:{password}"
     f"@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
 )
+
 
 # Metadata with schema
 metadata_obj = MetaData(schema=settings.DB_SCHEMA)

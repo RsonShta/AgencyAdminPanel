@@ -1,8 +1,8 @@
-# app/models/user.py
+# admin_app/models/user.py
 
 from sqlalchemy import Column, Integer, String, Boolean, TIMESTAMP
 from sqlalchemy.sql import func
-from app.database import Base  # Base = declarative_base()
+from admin_app.database.db import Base  # Base = declarative_base()
 
 class User(Base):
     __tablename__ = "users"  # Must match your table name
