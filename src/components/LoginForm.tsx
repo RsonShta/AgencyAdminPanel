@@ -1,24 +1,25 @@
 import React, { useState, type FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; // Icons
 import logo from '../assets/yetiAirlinesLogo.png';
-import { loginUser } from '../api/api';
+import { handleLogin } from '../api/apiData';
 import "../styles/login.css";
 
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
-      const result = await loginUser(username, password);
+      const result = await handleLogin(username, password);
       console.log('Login successful:', result);
       navigate('/dashboard');
-    } catch (err) {
-      setError('Invalid login credentials. Please try again.');
+    } catch (err: any) {
+      setError(err.message || 'Invalid login credentials. Please try again.');
       console.error('Login failed:', err);
     }
   };
@@ -44,16 +45,28 @@ const LoginForm: React.FC = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
+        <div className="form-group" style={{ position: 'relative' }}>
+          <label htmlFor="password_hash">Password</label>
           <input
-            id="password"
-            type="password"
+            id="password_hash"
+            type={showPassword ? 'text' : 'password'}
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <span
+            onClick={() => setShowPassword(!showPassword)}
+            style={{
+              position: 'absolute',
+              right: '10px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              cursor: 'pointer'
+            }}
+          >
+            {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+          </span>
         </div>
 
         {error && <p className="error-message">{error}</p>}
