@@ -1,8 +1,8 @@
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker, declarative_base
 from admin_app.core.config import settings
-
 from urllib.parse import quote_plus
+
 password = quote_plus(settings.DB_PASSWORD)  # encodes special chars
 
 DATABASE_URL = (

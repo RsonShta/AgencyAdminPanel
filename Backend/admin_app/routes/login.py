@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 from admin_app.schemas.users import LoginRequest
 from admin_app.database.db import get_db
 from admin_app.models.users import User
+import bcrypt
+
 
 router = APIRouter(prefix="/api", tags=["login"])
 
@@ -13,9 +15,12 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
     if not user:
         return {"status": "fail", "message": "User not found in DB"}
 
-    # just return user info for now (no password check yet)
+    if not bcrypt.checkpw(request.password_hash.encode(), user.password_hash.encode()):
+        return {"status": "fail", "message": "Invalid password"}
+
     return {
         "status": "success",
+        "message": "Login successful",
         "user_id": user.user_id,
         "username": user.username,
         "email": user.email,
