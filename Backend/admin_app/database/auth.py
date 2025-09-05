@@ -6,7 +6,6 @@ from sqlalchemy.orm import Session
 from starlette.authentication import requires
 from starlette import status
 from jose import jwt, JWTError
-from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from passlib.context import CryptContext
 from models import users
 
