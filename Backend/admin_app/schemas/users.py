@@ -5,4 +5,4 @@ from datetime import datetime
 
 class LoginRequest(BaseModel):
     username: str
-    password_hash: str
+    password: str

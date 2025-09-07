@@ -1,17 +1,11 @@
-import os
-
-from fastapi import APIRouter
-from pydantic import BaseModel
-from sqlalchemy.orm import Session
-from starlette.authentication import requires
-from starlette import status
-from jose import jwt, JWTError
 from passlib.context import CryptContext
-from models import users
 
-router = APIRouter()
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-SECRET_KEY = os.getenv( "SECRET_KEY")
-ALGORITHM = os.getenv( "ALGORITHM")
+def hash_password(password: str) -> str:
+    """Hash a plain password before storing in DB"""
+    return pwd_context.hash(password)
 
-bcrypt_context = CryptContext( schemes=["bcrypt"], deprecated="auto")
+def verify_password(password: str, password_hash: str) -> bool:
+    """Verify a plain password against the hashed password"""
+    return pwd_context.verify(password, password_hash)
