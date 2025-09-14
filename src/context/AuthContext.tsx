@@ -1,6 +1,8 @@
 // src/context/auth-context.tsx
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { storage } from "../utils/storage";
+import { logout as logoutApi } from "../api/apiData";
+
 interface AuthContextType {
   isAuthenticated: boolean;
   username?: string;
@@ -44,14 +46,20 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
     storage.set("token", "dummy-token", 30);
   };
 
-  const logout = (callback?: () => void) => {
-    storage.remove("token");
-    sessionStorage.removeItem("username");
-    sessionStorage.removeItem("password");
-    setUsername(undefined);
-    setPassword(undefined);
-    setIsAuthenticated(false);
-    if (callback) callback();
+  const logout = async (callback?: () => void) => {
+    try {
+      await logoutApi();
+      storage.remove("token");
+      sessionStorage.removeItem("username");
+      sessionStorage.removeItem("password");
+      setUsername(undefined);
+      setPassword(undefined);
+      setIsAuthenticated(false);
+      if (callback) callback();
+    } catch (error) {
+      console.error("Logout failed:", error);
+      // Handle error appropriately (e.g., display an error message)
+    }
   };
 
   return (

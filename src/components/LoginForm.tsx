@@ -1,25 +1,32 @@
 import React, { useState, type FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; // Icons
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import logo from '../assets/yetiAirlinesLogo.png';
 import { handleLogin } from '../api/apiData';
 import "../styles/login.css";
 
 const LoginForm: React.FC = () => {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
+
     try {
       const result = await handleLogin(username, password);
-      console.log('Login successful:', result);
-      navigate('/dashboard');
+      if (result.access_token) {
+        // Save token in localStorage
+        localStorage.setItem('access_token', result.access_token);
+        navigate('/dashboard');
+      } else {
+        setError('Login failed. Please try again.');
+      }
     } catch (err: any) {
-      setError(err.message || 'Invalid login credentials. Please try again.');
+      setError(err.response?.data?.detail || 'Invalid login credentials. Please try again.');
       console.error('Login failed:', err);
     }
   };
@@ -46,9 +53,9 @@ const LoginForm: React.FC = () => {
         </div>
 
         <div className="form-group" style={{ position: 'relative' }}>
-          <label htmlFor="password_hash">Password</label>
+          <label htmlFor="password">Password</label>
           <input
-            id="password_hash"
+            id="password"
             type={showPassword ? 'text' : 'password'}
             placeholder="Enter your password"
             value={password}
@@ -60,7 +67,7 @@ const LoginForm: React.FC = () => {
             style={{
               position: 'absolute',
               right: '10px',
-              top: '50%',
+              top: '60%',
               transform: 'translateY(-50%)',
               cursor: 'pointer'
             }}

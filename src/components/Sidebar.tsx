@@ -37,7 +37,6 @@ const navSections: NavSection[] = [
     links: [
       { href: "#", icon: "fas fa-cogs", label: "System Settings" },
       { href: "#", icon: "fas fa-shield-alt", label: "Security" },
-      { href: "/login", icon: "fas fa-sign-out-alt", label: "Logout" },
     ],
   },
 ];
