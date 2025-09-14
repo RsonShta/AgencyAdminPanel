@@ -16,7 +16,7 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
     if not user:
         raise HTTPException(status_code=401, detail="Invalid username or password")
 
-    # 2. Create JWT token with user_id + username
+    # ✅ Create JWT token with user_id + username
     access_token = create_access_token(user_id=user.user_id, username=user.username)
 
     return {
@@ -25,4 +25,8 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
         "user_id": user.user_id,
         "username": user.username,
         "email": user.email,
+        "access_token": access_token,
+        "token_type": "bearer"
     }
+
+

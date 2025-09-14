@@ -1,11 +1,11 @@
 import uuid
 from datetime import datetime, timezone, timedelta
 from jose import jwt
-from config import settings
+from admin_app.core.config import settings
 
 def create_access_token(user_id: int, username: str, expires_delta: int = None):
     payload = {
-        "sub": str(user_id),     # subject = user id
+        "user_id": user_id,     # subject = user id
         "username": username,
         "jti":str(uuid.uuid4()),
         "exp": datetime.now(timezone.utc) + timedelta(
