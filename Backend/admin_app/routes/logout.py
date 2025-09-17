@@ -1,13 +1,19 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from admin_app.database.auth import get_current_user, oauth2_scheme
-from admin_app.core.token_blacklist import blacklisted_tokens
+from fastapi import Depends, HTTPException, status, APIRouter
+from jose import jwt
+from admin_app.database.db import get_db
+from sqlalchemy.orm import Session
+from admin_app.core.config import settings
+from admin_app.core.security import oauth2_scheme
+from admin_app.core.security import revoked_tokens
 
-router = APIRouter(prefix="/api", tags=["auth"])
+router = APIRouter(prefix="/api", tags=["logout"])
 
 @router.post("/logout")
-def logout(current_user: dict = Depends(get_current_user), token: str = Depends(oauth2_scheme)):
-    """
-    Invalidate the JWT token for the current user.
-    """
-    blacklisted_tokens.add(token)
-    return {"status": "success", "message": "Logged out successfully"}
+def logout(token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        jti = payload.get("jti")
+        revoked_tokens.add(jti)
+        return {"status": "success", "message": "Logged out successfully"}
+    except:
+        raise HTTPException(status_code=401, detail="Invalid token")

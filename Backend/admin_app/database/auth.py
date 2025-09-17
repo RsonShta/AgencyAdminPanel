@@ -1,12 +1,11 @@
-from passlib.context import CryptContext
-
-#for dependency jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
-from admin_app.core.config import settings
 from jose.exceptions import ExpiredSignatureError
-
+from passlib.context import CryptContext
+from admin_app.core.config import settings
+from admin_app.core.security import revoked_tokens  # import blacklist set
+from admin_app.core.security import oauth2_scheme
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -18,20 +17,28 @@ def verify_password(password: str, password_hash: str) -> bool:
     """Verify a plain password against the hashed password"""
     return pwd_context.verify(password, password_hash)
 
-#jwt dependency
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
-
 def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         user_id = payload.get("user_id")
         username = payload.get("username")
+        role = payload.get("role")
+        jti = payload.get("jti")
 
-        if user_id is None or username is None:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+        if not user_id or not username:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid token"
+            )
 
-        return {"user_id": user_id, "username": username}
+        # Check blacklist
+        if jti in revoked_tokens:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token has been revoked"
+            )
+
+        return {"user_id": user_id, "username": username, "role": role}
 
     except ExpiredSignatureError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token expired")

@@ -1,4 +1,4 @@
-from admin_app.db.database import Base
+from admin_app.database.db import Base
 from sqlalchemy import Column, Integer, String, Boolean, TIMESTAMP
 from sqlalchemy.sql import func
 
