@@ -10,12 +10,6 @@ import { SupplierProvider } from "./context/SupplierContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <AuthProvider>
-      <AgencyProvider>
-        <SupplierProvider>
-          <App />
-        </SupplierProvider>
-      </AgencyProvider>
-    </AuthProvider>
+    <App />
   </React.StrictMode>
 );

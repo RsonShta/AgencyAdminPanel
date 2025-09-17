@@ -1,64 +1,95 @@
 // src/context/auth-context.tsx
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { storage } from "../utils/storage";
-import { logout as logoutApi } from "../api/apiData";
+import { logout as logoutApi } from "../api/apiData"; // Assuming this is the correct logout API call
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  username?: string;
-  password?: string;
-  setCredentials: (username: string, password: string) => void;
-  logout: (callback?: () => void) => void;
+  accessToken: string | null;
+  role: string | null;
+  username: string | null;
+  isLoading: boolean;
+  login: (token: string, role: string, username: string) => void;
+  logout: (callback?: () => void, showMessage?: (msg: string, type: 'success' | 'error' | 'warning') => void) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [username, setUsername] = useState<string | undefined>(undefined);
-  const [password, setPassword] = useState<string | undefined>(undefined);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Check for an existing token on mount (to persist authentication)
   useEffect(() => {
-    const token = storage.get("token");
-    if (token) {
-      setIsAuthenticated(true);
+    const storedToken = storage.get("accessToken");
+    const storedRole = storage.get("role");
+    const storedUsername = storage.get("username");
 
-      // Optionally, retrieve username and password from sessionStorage (if stored)
-      const storedUsername = sessionStorage.getItem("username") || undefined;
-      const storedPassword = sessionStorage.getItem("password") || undefined;
-      if (storedUsername && storedPassword) {
-        setUsername(storedUsername);
-        setPassword(storedPassword);
-      }
+    if (storedToken && storedRole && storedUsername) {
+      setAccessToken(storedToken);
+      setRole(storedRole);
+      setUsername(storedUsername);
+      setIsAuthenticated(true);
     }
+    setIsLoading(false);
   }, []);
 
-  const setCredentials = (user: string, pass: string) => {
-    setUsername(user);
-    setPassword(pass);
+  const login = (token: string, userRole: string, userName: string) => {
+    storage.set("accessToken", token);
+    storage.set("role", userRole);
+    storage.set("username", userName);
+    setAccessToken(token);
+    setRole(userRole);
+    setUsername(userName);
     setIsAuthenticated(true);
-
-    // Optionally, store credentials in sessionStorage
-    sessionStorage.setItem("username", user);
-    sessionStorage.setItem("password", pass);
-    // Save a dummy token in localStorage with a TTL (e.g., 30 minutes)
-    storage.set("token", "dummy-token", 30);
   };
 
-  const logout = async (callback?: () => void) => {
+  const logout = async (callback?: () => void, showMessage?: (msg: string, type: 'success' | 'error' | 'warning') => void) => {
+    let shouldLogoutLocally = true;
+    let message = 'Successfully logged out';
+    let messageType: 'success' | 'error' | 'warning' = 'success';
+
     try {
-      await logoutApi();
-      storage.remove("token");
-      sessionStorage.removeItem("username");
-      sessionStorage.removeItem("password");
-      setUsername(undefined);
-      setPassword(undefined);
+      // Call backend logout API to revoke token
+      if (accessToken) {
+        await logoutApi(accessToken);
+      }
+    } catch (error: any) {
+      console.error("Logout API call failed:", error);
+
+      // Check if it's a network error (backend unreachable)
+      if (!error.response) {
+        message = 'Server unreachable, but you have been logged out locally.';
+        messageType = 'warning';
+      } else if (error.response?.status === 401) {
+        // Token expired - this is normal, just logout locally
+        message = 'Successfully logged out (token was already expired)';
+        messageType = 'success';
+      } else {
+        // Other API errors
+        message = 'Backend logout failed, but you have been logged out locally.';
+        messageType = 'warning';
+      }
+    }
+
+    if (shouldLogoutLocally) {
+      // Clear local storage regardless of API call result
+      storage.remove("accessToken");
+      storage.remove("role");
+      storage.remove("username");
+      setAccessToken(null);
+      setRole(null);
+      setUsername(null);
       setIsAuthenticated(false);
-      if (callback) callback();
-    } catch (error) {
-      console.error("Logout failed:", error);
-      // Handle error appropriately (e.g., display an error message)
+    }
+
+    if (callback) callback();
+
+    // Show message if callback provided
+    if (showMessage) {
+      showMessage(message, messageType);
     }
   };
 
@@ -66,9 +97,11 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
     <AuthContext.Provider
       value={{
         isAuthenticated,
+        accessToken,
+        role,
         username,
-        password,
-        setCredentials,
+        isLoading,
+        login,
         logout,
       }}
     >

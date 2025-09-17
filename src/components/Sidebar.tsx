@@ -17,18 +17,18 @@ const navSections: NavSection[] = [
   {
     title: "MAIN",
     icon: "fas fa-home",
-    links: [{ href: "/dashboard", icon: "fas fa-tachometer-alt", label: "Dashboard" }],
+    links: [{ href: "/app/overview", icon: "fas fa-tachometer-alt", label: "Dashboard" }],
   },
   {
     title: "MANAGEMENT",
     icon: "fas fa-briefcase",
     links: [
-      { href: "/dashboard/suppliers", icon: "fas fa-handshake", label: "Suppliers" },
-      { href: "/dashboard/users", icon: "fas fa-users", label: "Users" },
-      { href: "/dashboard/agencies", icon: "fas fa-building", label: "Agencies" },
-      { href: "/dashboard/apitest", icon: "fas fa-plug", label: "Test API" },
+      { href: "/app/suppliers", icon: "fas fa-handshake", label: "Suppliers" },
+      { href: "/app/users", icon: "fas fa-users", label: "Users" },
+      { href: "/app/agencies", icon: "fas fa-building", label: "Agencies" },
+      { href: "/app/api-test", icon: "fas fa-plug", label: "Test API" },
       { href: "#", icon: "fas fa-dollar-sign", label: "Fare Override" }, // changed to money-bill
-      { href: "/dashboard/booking", icon: "fas fa-ticket-alt", label: "Booking" },
+      { href: "/app/booking", icon: "fas fa-ticket-alt", label: "Booking" },
     ],
   },
   {

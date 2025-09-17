@@ -15,12 +15,19 @@ export const handleLogin = async (username: string, password: string) => {
   }
 };
 
-export const logout = async () => {
+export const logout = async (token: string) => {
   try {
-    await axios.post(`/logout`);
-    console.log("✅ Logout successful");
+    const response = await axios.post(`${API_DATA_BASE_URL}/api/logout`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log("Logout successful");
+    return response.data;
   } catch (err: any) {
-    console.error("❌ Logout failed:", err?.response?.data || err.message);
-    throw new Error("Logout failed");
+    console.error("Logout API failed:", err?.response?.data || err.message);
+    // Don't throw error - we want to clear local storage even if API fails
+    throw err; // Re-throw to let AuthContext handle it
   }
 };

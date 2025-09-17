@@ -1,6 +1,7 @@
 import axios from "axios";
+import { storage } from "../utils/storage"; // Import storage utility
 
-const BASE_URL = "http://localhost:8446/api/flight";
+const BASE_URL = "http://localhost:8446/api/flight"; // This might need to be updated to your FastAPI backend URL
 
 let sessionCookie: string | null = null;
 
@@ -23,20 +24,53 @@ const axiosInstance = axios.create({
   }]
 });
 
-
-// Add interceptor to manage session
-axiosInstance.interceptors.response.use(response => {
-  const setCookie = response.headers['set-cookie'];
-  if (setCookie) {
-    const jsessionid = setCookie.find(cookie => cookie.startsWith('JSESSIONID='));
-    if (jsessionid) {
-      sessionCookie = jsessionid;
-      axiosInstance.defaults.headers.common['Cookie'] = sessionCookie;
-      console.log('🔑 Session cookie updated:', sessionCookie);
+// Request interceptor to add JWT token
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const accessToken = storage.get("accessToken");
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
-  return response;
-});
+);
+
+// Response interceptor to handle session and errors
+axiosInstance.interceptors.response.use(
+  (response) => {
+    const setCookie = response.headers['set-cookie'];
+    if (setCookie) {
+      const jsessionid = setCookie.find(cookie => cookie.startsWith('JSESSIONID='));
+      if (jsessionid) {
+        sessionCookie = jsessionid;
+        axiosInstance.defaults.headers.common['Cookie'] = sessionCookie;
+        console.log('🔑 Session cookie updated:', sessionCookie);
+      }
+    }
+    return response;
+  },
+  (error) => {
+    if (error.response) {
+      const { status, data } = error.response;
+      if (status === 401) {
+        // Unauthorized access or expired token
+        console.error("Unauthorized: Token missing or invalid.", data);
+        // Optionally, redirect to login or clear token
+        // For now, just log and let the component handle it
+      } else if (status === 403) {
+        // Forbidden: Role-based access denied
+        console.error("Forbidden: Insufficient permissions.", data);
+      } else if (status === 422) {
+        // Unprocessable Entity: Often for validation errors
+        console.error("Validation Error:", data);
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 export type FlightAvailabilityParams = {
   strOrigin: string;

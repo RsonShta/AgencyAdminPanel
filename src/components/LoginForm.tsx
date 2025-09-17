@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import logo from '../assets/yetiAirlinesLogo.png';
 import { handleLogin } from '../api/apiData';
+import { useAuth } from '../context/AuthContext';
 import "../styles/login.css";
 
 const LoginForm: React.FC = () => {
@@ -10,24 +11,42 @@ const LoginForm: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
 
     try {
       const result = await handleLogin(username, password);
-      if (result.access_token) {
-        // Save token in localStorage
-        localStorage.setItem('access_token', result.access_token);
-        navigate('/dashboard');
+      console.log("Login API response:", result); // For debugging
+      if (result.status === 'success' && result.username) {
+        // Assuming a default role and that the token is handled elsewhere or not needed for this step
+        const role = result.role || 'admin';
+        const token = result.access_token || 'dummy-token'; // Using a dummy token for now
+        login(token, role, result.username);
+        // Navigation is now handled by the useEffect hook
       } else {
-        setError('Login failed. Please try again.');
+        setError(result.message || 'Login failed. Please try again.');
       }
     } catch (err: any) {
-      setError(err.response?.data?.detail || 'Invalid login credentials. Please try again.');
+      if (err.response) {
+        if (err.response.status === 401) {
+          setError('Invalid login credentials. Please try again.');
+        } else {
+          setError('Unexpected error occurred.');
+        }
+      } else if (err.request) {
+        setError('Server unreachable. Please try again later.');
+      } else {
+        setError('Unexpected error occurred.');
+      }
       console.error('Login failed:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -82,11 +101,13 @@ const LoginForm: React.FC = () => {
           <a href="/forgot-password">Forgot Password?</a>
         </div>
 
-        <button type="submit" className="btn">Login</button>
+        <button type="submit" className="btn" disabled={loading}>
+          {loading ? 'Logging in...' : 'Login'}
+        </button>
       </form>
 
       <div className="footer" style={{ textAlign: 'center' }}>
-        Don't have an account? <Link to="/signup">Sign up</Link>
+        Don't have an account? <Link to="/auth/register">Sign up</Link>
       </div>
     </div>
   );
