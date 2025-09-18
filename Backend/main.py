@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from admin_app.routes import login, logout, protected, suppliers
 app = FastAPI()
 
-origins = ["http://localhost", "http://localhost:5173"]  # remove "*" in production
+origins = ["http://localhost", "http://localhost:5173", "http://localhost:5173"]  # remove "*" in production
 
 app.add_middleware(
     CORSMiddleware,
