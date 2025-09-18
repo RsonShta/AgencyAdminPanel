@@ -4,6 +4,7 @@ import Login from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import Dashboard from "./pages/Dashboard";
 import SuppliersPage from "./pages/SuppliersPage";
+import SupplierProfile from "./pages/SupplierProfile";
 import UsersPage from "./pages/UsersPage";
 import APITestPage from "./pages/APITestPage";
 import AgencyPage from "./pages/AgencyPage";
@@ -31,18 +32,31 @@ const App: React.FC = () => {
               <Route path="/auth/register" element={<SignupPage />} />
             </Route>
 
-            {/* Protected Routes */}
+            {/* Basic Protected Routes - accessible by all roles */}
             <Route element={<ProtectedRoute />}>
               <Route path="/app/overview" element={<Dashboard />} />
+            </Route>
+
+            {/* Supplier Management Routes */}
+            <Route element={<ProtectedRoute allowedRoles={["Super Admin", "Admin"]} />}>
               <Route path="/app/suppliers" element={<SuppliersPage />} />
-              <Route path="/app/api-test" element={<APITestPage />} />
+              <Route path="/app/suppliers/:supplierId" element={<SupplierProfile />} />
+            </Route>
+
+            {/* Admin Protected Routes */}
+            <Route element={<ProtectedRoute allowedRoles={["Super Admin", "Admin"]} />}>
+              <Route path="/app/users" element={<UsersPage />} />
+            </Route>
+
+            {/* Manager/Support Routes */}
+            <Route element={<ProtectedRoute allowedRoles={["Super Admin", "Admin", "Manager", "Support"]} />}>
               <Route path="/app/agencies" element={<AgencyPage />} />
               <Route path="/app/booking" element={<BookingPage />} />
             </Route>
 
-            {/* Superadmin Protected Route */}
-            <Route element={<ProtectedRoute allowedRoles={["superadmin"]} />}>
-              <Route path="/app/users" element={<UsersPage />} />
+            {/* API Consumer Routes */}
+            <Route element={<ProtectedRoute allowedRoles={["Super Admin", "API Consumer"]} />}>
+              <Route path="/app/api-test" element={<APITestPage />} />
             </Route>
 
             <Route path="/" element={<Navigate to="/auth/login" />} />

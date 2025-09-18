@@ -8,8 +8,9 @@ interface AuthContextType {
   accessToken: string | null;
   role: string | null;
   username: string | null;
+  email: string | null;
   isLoading: boolean;
-  login: (token: string, role: string, username: string) => void;
+  login: (token: string, role: string, username: string, email: string) => void;
   logout: (callback?: () => void, showMessage?: (msg: string, type: 'success' | 'error' | 'warning') => void) => void;
 }
 
@@ -20,29 +21,34 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [role, setRole] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const storedToken = storage.get("accessToken");
     const storedRole = storage.get("role");
     const storedUsername = storage.get("username");
+    const storedEmail = storage.get("email");
 
     if (storedToken && storedRole && storedUsername) {
       setAccessToken(storedToken);
       setRole(storedRole);
       setUsername(storedUsername);
+      setEmail(storedEmail);
       setIsAuthenticated(true);
     }
     setIsLoading(false);
   }, []);
 
-  const login = (token: string, userRole: string, userName: string) => {
+  const login = (token: string, userRole: string, userName: string, userEmail: string) => {
     storage.set("accessToken", token);
     storage.set("role", userRole);
     storage.set("username", userName);
+    storage.set("email", userEmail);
     setAccessToken(token);
     setRole(userRole);
     setUsername(userName);
+    setEmail(userEmail);
     setIsAuthenticated(true);
   };
 
@@ -79,9 +85,11 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
       storage.remove("accessToken");
       storage.remove("role");
       storage.remove("username");
+      storage.remove("email");
       setAccessToken(null);
       setRole(null);
       setUsername(null);
+      setEmail(null);
       setIsAuthenticated(false);
     }
 
@@ -100,6 +108,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
         accessToken,
         role,
         username,
+        email,
         isLoading,
         login,
         logout,

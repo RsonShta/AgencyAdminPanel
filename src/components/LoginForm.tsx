@@ -24,10 +24,10 @@ const LoginForm: React.FC = () => {
       const result = await handleLogin(username, password);
       console.log("Login API response:", result); // For debugging
       if (result.status === 'success' && result.username) {
-        // Assuming a default role and that the token is handled elsewhere or not needed for this step
-        const role = result.role || 'admin';
-        const token = result.access_token || 'dummy-token'; // Using a dummy token for now
-        login(token, role, result.username);
+        const role = result.role;
+        const token = result.access_token;
+        const email = result.email;
+        login(token, role, result.username, email);
         // Navigation is now handled by the useEffect hook
       } else {
         setError(result.message || 'Login failed. Please try again.');

@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
-
-type Supplier = {
-  id: number;
-  name: string;
-  email: string;
-  status: 'Active' | 'Inactive';
-};
+import { useNavigate } from 'react-router-dom';
+import { type Supplier } from '../context/SupplierContext';
 
 type SupplierTableProps = {
   suppliers: Supplier[];
@@ -22,19 +17,22 @@ const SupplierTable: React.FC<SupplierTableProps> = ({
   onDeleteUser,
   pageSize = 5,
 }) => {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setCurrentPage(1); // Reset page when supplier list changes
   }, [suppliers]);
 
+  console.log('Suppliers in table:', suppliers); // Debug log
   const totalPages = Math.ceil(suppliers.length / pageSize);
   const pagedSuppliers = suppliers.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
+  console.log('Paged suppliers:', pagedSuppliers); // Debug log
 
-  const allCurrentSelected = pagedSuppliers.every((s) =>
+  const allCurrentSelected = pagedSuppliers.length > 0 && pagedSuppliers.every((s) =>
     selectedSuppliers.includes(s.id)
   );
 
@@ -65,7 +63,10 @@ const SupplierTable: React.FC<SupplierTableProps> = ({
   const handleDeleteClick = (id: number, name: string) => {
     onDeleteUser && onDeleteUser(id); // Just notify the parent
   };
-  
+
+  const handleViewProfile = (supplier: Supplier) => {
+    navigate(`/app/suppliers/${supplier.id}`);
+  };
 
   return (
     <section className="user-list">
@@ -82,6 +83,8 @@ const SupplierTable: React.FC<SupplierTableProps> = ({
             </th>
             <th className="header-green">ID</th>
             <th className="header-green">Name</th>
+            <th className="header-green">Type</th>
+            <th className="header-green">Contact</th>
             <th className="header-green">Email</th>
             <th className="header-green">Status</th>
             <th className="header-green">Actions</th>
@@ -90,49 +93,61 @@ const SupplierTable: React.FC<SupplierTableProps> = ({
         <tbody>
           {pagedSuppliers.length === 0 ? (
             <tr>
-              <td colSpan={6} className="no-suppliers">
+              <td colSpan={8} className="no-suppliers">
                 No suppliers found.
               </td>
             </tr>
           ) : (
-            pagedSuppliers.map((supplier) => (
-              <tr key={supplier.id}>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={isSelected(supplier.id)}
-                    onChange={() => toggleCheckbox(supplier.id)}
-                    aria-label={`Select supplier ${supplier.name}`}
-                  />
-                </td>
-                <td>{supplier.id}</td>
-                <td>{supplier.name}</td>
-                <td>{supplier.email}</td>
-                <td>
-                  <span
-                    className={`status ${supplier.status.toLowerCase()}`}
-                    aria-label={supplier.status}
-                  >
-                    {supplier.status}
-                  </span>
-                </td>
-                <td>
-                  <button
-                    className="icon-button edit"
-                    aria-label={`Edit supplier ${supplier.name}`}
-                  >
-                    <i className="fas fa-edit" />
-                  </button>
-                  <button
-                    onClick={() => handleDeleteClick(supplier.id, supplier.name)}
-                    className="icon-button delete"
-                    aria-label={`Delete supplier ${supplier.name}`}
-                  >
-                    <i className="fas fa-trash" />
-                  </button>
-                </td>
-              </tr>
-            ))
+            pagedSuppliers.map((supplier) => {
+              const status = supplier.is_active ? 'Active' : 'Inactive';
+              return (
+                <tr key={supplier.id} onClick={() => handleViewProfile(supplier)} className="clickable-row">
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={isSelected(supplier.id)}
+                      onChange={(e) => {
+                        e.stopPropagation();
+                        toggleCheckbox(supplier.id);
+                      }}
+                      aria-label={`Select supplier ${supplier.name}`}
+                    />
+                  </td>
+                  <td>{supplier.id}</td>
+                  <td>{supplier.name}</td>
+                  <td>{supplier.type}</td>
+                  <td>{supplier.contact_name || 'N/A'}</td>
+                  <td>{supplier.email || 'N/A'}</td>
+                  <td>
+                    <span
+                      className={`status ${status.toLowerCase()}`}
+                      aria-label={status}
+                    >
+                      {status}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      className="icon-button edit"
+                      aria-label={`Edit supplier ${supplier.name}`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <i className="fas fa-edit" />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteClick(supplier.id, supplier.name);
+                      }}
+                      className="icon-button delete"
+                      aria-label={`Delete supplier ${supplier.name}`}
+                    >
+                      <i className="fas fa-trash" />
+                    </button>
+                  </td>
+                </tr>
+              );
+            })
           )}
         </tbody>
       </table>

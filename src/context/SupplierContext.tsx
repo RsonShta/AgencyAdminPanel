@@ -8,8 +8,14 @@ import React, {
 export type Supplier = {
   id: number;
   name: string;
-  email: string;
-  status: 'Active' | 'Inactive';
+  type: string;
+  api_endpoint?: string;
+  api_key?: string;
+  is_active?: boolean;
+  address?: string;
+  contact_name?: string;
+  contact_number?: string;
+  email?: string;
   agencyIds?: string[];
 };
 
@@ -34,29 +40,7 @@ export const useSupplierContext = () => {
 };
 
 export const SupplierProvider = ({ children }: { children: ReactNode }) => {
-  const [suppliers, setSuppliers] = useState<Supplier[]>([
-    {
-      id: 1,
-      name: 'Yeti Airlines',
-      email: 'contact@yeti.com',
-      status: 'Active',
-      agencyIds: ['1'],
-    },
-    {
-      id: 2,
-      name: 'Tara Air',
-      email: 'info@taraair.com',
-      status: 'Inactive',
-      agencyIds: ['2'],
-    },
-    {
-      id: 3,
-      name: 'Buddha Air',
-      email: 'support@buddhaair.com',
-      status: 'Active',
-      agencyIds: [],
-    },
-  ]);
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
 
   const [selectedSupplierIds, setSelectedSupplierIds] = useState<number[]>([]);
 

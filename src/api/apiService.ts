@@ -1,7 +1,7 @@
 import axios from "axios";
 import { storage } from "../utils/storage"; // Import storage utility
 
-const BASE_URL = "http://localhost:8446/api/flight"; // This might need to be updated to your FastAPI backend URL
+const BASE_URL = import.meta.env.VITE_FLIGHT_API_BASE_URL || "http://localhost:8446/api/flight"; // This might need to be updated to your FastAPI backend URL
 
 let sessionCookie: string | null = null;
 
